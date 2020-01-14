@@ -29,5 +29,36 @@ class Address(Base):
     def to_dict(self):
         return {}
 
+
+class User(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True)
+    username = Column(String(200), nullable=False)
+    password = Column(String(200), nullable=False)
+class Follower(Base):
+    __tablename__ = 'followers'
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    user = relationship(User)
+    follower_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    follower = relationship(User)
+class Profile(Base):
+    __tablename__ = 'profiles'
+    id = Column(Integer, primary_key=True)
+    email = Column(String(200), nullable=False)
+    biogra = Column(String(255), nullable=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship(User)
+class avatar(Base):
+    __tablename__ = 'avatars'
+    id = Column(Integer, primary_key=True)
+    avatar = Column(String(200), nullable=True)
+    profile_id = Column(Integer, ForeignKey('profiles.id'))
+    profile = relationship(Profile)
+
+
+
+
+
+
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
